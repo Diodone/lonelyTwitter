@@ -53,7 +53,7 @@ public class LonelyTwitterActivity extends Activity {
 	private EditText bodyText;
 	private ListView oldTweetsList;
 	private ArrayAdapter<Tweet> adapter;
-	private ArrayList<Tweet> tweetList = new ArrayList<Tweet>();
+	private ArrayList<Tweet> tweetList;
 
 	
 	/** Called when the activity is first created. Creates the body of the page */
@@ -124,6 +124,7 @@ public class LonelyTwitterActivity extends Activity {
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
+		tweetList = TweetListSingleton.getInstance().getTweetList();
 		loadFromFile();
 		adapter = new ArrayAdapter<Tweet>(this,
 				R.layout.list_item, tweetList);
