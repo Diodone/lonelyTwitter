@@ -8,12 +8,10 @@
  * Copyright (c) 2019. All rights reserved.
  */
 
-package ca.ualberta.cs.lonelytwitter;
+package ca.ualberta.cs.Diodone;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.google.gson.Gson;
 
 import java.util.Date;
 import java.util.UUID;
@@ -23,9 +21,7 @@ import java.util.UUID;
  * @author Ryan Jensen
  * @version 1.3
  */
-public class Tweet implements Parcelable {
-    private String message;
-    private Date date;
+public class NormalTweet extends Tweet implements Parcelable {
 
     public UUID getUnique() {
         return Unique;
@@ -35,24 +31,23 @@ public class Tweet implements Parcelable {
         Unique = unique;
     }
 
-    private UUID Unique;
-
     /**
-     * Creates a Tweet object with the provided message
+     * Creates a NormalTweet object with the provided message
      * @param message a String
      */
-    public Tweet(String message){
+    public NormalTweet(String message){
         this.message = message;
         this.Unique = UUID.randomUUID();
     }
-    public Tweet(){
+    public NormalTweet(){
         this.message = "";
     }
     /**
      * Changes the message stored to a new message, overwriting the previous message
      * @param message a new String
      */
-    public void setMessage(String message){
+    @Override
+    public void setTweetBody(String message){
         this.message = message;
     }
 
@@ -65,7 +60,7 @@ public class Tweet implements Parcelable {
     }
 
     /**
-     * Converts the Tweet object into a String object
+     * Converts the NormalTweet object into a String object
      * @return Returns a string representing the message
      */
     @Override
@@ -73,7 +68,7 @@ public class Tweet implements Parcelable {
         return message;
     }
 
-    protected Tweet(Parcel in) {
+    protected NormalTweet(Parcel in) {
         message = in.readString();
         long tmpDate = in.readLong();
         date = tmpDate != -1 ? new Date(tmpDate) : null;
@@ -93,15 +88,15 @@ public class Tweet implements Parcelable {
     }
 
     @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Tweet> CREATOR = new Parcelable.Creator<Tweet>() {
+    public static final Parcelable.Creator<NormalTweet> CREATOR = new Parcelable.Creator<NormalTweet>() {
         @Override
-        public Tweet createFromParcel(Parcel in) {
-            return new Tweet(in);
+        public NormalTweet createFromParcel(Parcel in) {
+            return new NormalTweet(in);
         }
 
         @Override
-        public Tweet[] newArray(int size) {
-            return new Tweet[size];
+        public NormalTweet[] newArray(int size) {
+            return new NormalTweet[size];
         }
     };
 }

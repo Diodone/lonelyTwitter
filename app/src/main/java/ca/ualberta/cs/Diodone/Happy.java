@@ -8,7 +8,7 @@
  * Copyright (c) 2019. All rights reserved.
  */
 
-package ca.ualberta.cs.lonelytwitter;
+package ca.ualberta.cs.Diodone;
 
 import java.util.Date;
 

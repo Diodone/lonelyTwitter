@@ -1,4 +1,4 @@
-package ca.ualberta.cs.lonelytwitter;
+package ca.ualberta.cs.Diodone;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,7 +12,7 @@ public class EditTweetActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_tweet);
         Intent intent = getIntent();
-        Tweet theTweet = intent.getParcelableExtra("Tweet");
+        NormalTweet theTweet = intent.getParcelableExtra("NormalTweet");
         TextView ourView = findViewById(R.id.textView);
         ourView.setText(theTweet.getMessage());
     }

@@ -1,19 +1,19 @@
-package ca.ualberta.cs.lonelytwitter;
+package ca.ualberta.cs.Diodone;
 
 import java.util.ArrayList;
 
 public class TweetListSingleton {
     private static TweetListSingleton instance = null;
-    private ArrayList<Tweet> tweetList;
+    private ArrayList<NormalTweet> tweetList;
     private TweetListSingleton(){
         tweetList = new ArrayList<>();
     }
 
-    public void setTweetList(ArrayList<Tweet> tweetList) {
+    public void setTweetList(ArrayList<NormalTweet> tweetList) {
         this.tweetList = tweetList;
     }
 
-    public ArrayList<Tweet> getTweetList(){
+    public ArrayList<NormalTweet> getTweetList(){
         return this.tweetList;
     }
     public static TweetListSingleton getInstance(){

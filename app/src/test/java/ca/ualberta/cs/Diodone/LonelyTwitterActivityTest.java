@@ -1,4 +1,4 @@
-package ca.ualberta.cs.lonelytwitter;
+package ca.ualberta.cs.Diodone;
 
 import org.junit.Test;
 
@@ -11,8 +11,8 @@ public class LonelyTwitterActivityTest {
     @Test
     public void addTest(){
         LonelyTwitterActivity holder = new LonelyTwitterActivity();
-        Tweet temp1 = new Tweet("HI");
-        Tweet temp2 = new Tweet("HI");
+        NormalTweet temp1 = new NormalTweet("HI");
+        NormalTweet temp2 = new NormalTweet("HI");
         try{
             holder.addTweet(temp1);
         } catch(IllegalArgumentException e){
@@ -33,12 +33,12 @@ public class LonelyTwitterActivityTest {
     @Test
     public void getTweetsTest(){
         LonelyTwitterActivity holder = new LonelyTwitterActivity();
-        Tweet temp1 = new Tweet("ZI");
-        Tweet temp2 = new Tweet("HI");
-        Tweet temp3 = new Tweet("AI");
-        Tweet temp4 = new Tweet("AI");
-        ArrayList<Tweet> expected = new ArrayList<Tweet>();
-        ArrayList<Tweet> obtained = holder.getTweets();
+        NormalTweet temp1 = new NormalTweet("ZI");
+        NormalTweet temp2 = new NormalTweet("HI");
+        NormalTweet temp3 = new NormalTweet("AI");
+        NormalTweet temp4 = new NormalTweet("AI");
+        ArrayList<NormalTweet> expected = new ArrayList<NormalTweet>();
+        ArrayList<NormalTweet> obtained = holder.getTweets();
         assertEquals(expected.toArray(), obtained.toArray());
         holder.addTweet(temp3);
         assertNotEquals(expected.toArray(), holder.getTweets().toArray());
@@ -62,13 +62,13 @@ public class LonelyTwitterActivityTest {
     public void hasTest(){
         // violates some encapsulation principles in order to put 2 of the same object into tweetlist
         LonelyTwitterActivity holder = new LonelyTwitterActivity();
-        Tweet temp3 = new Tweet("AI");
-        Tweet temp4 = new Tweet("AI");
+        NormalTweet temp3 = new NormalTweet("AI");
+        NormalTweet temp4 = new NormalTweet("AI");
         // assumes we can directly modify the stored tweetlist for the test
         holder.addTweet(temp3);
         holder.addTweet(temp4);
         assertEquals(false, holder.hasTweet());
-        ArrayList<Tweet> obtained = holder.getTweets();
+        ArrayList<NormalTweet> obtained = holder.getTweets();
         obtained.add(temp3);
         assertEquals(true, holder.hasTweet());
         obtained.remove(obtained.get(obtained.size()-1));
@@ -79,10 +79,10 @@ public class LonelyTwitterActivityTest {
     @Test
     public void getCountTest(){
         LonelyTwitterActivity holder = new LonelyTwitterActivity();
-        Tweet temp1 = new Tweet("ZI");
-        Tweet temp2 = new Tweet("HI");
-        Tweet temp3 = new Tweet("AI");
-        Tweet temp4 = new Tweet("AI");
+        NormalTweet temp1 = new NormalTweet("ZI");
+        NormalTweet temp2 = new NormalTweet("HI");
+        NormalTweet temp3 = new NormalTweet("AI");
+        NormalTweet temp4 = new NormalTweet("AI");
         assertEquals(0,holder.getCount());
         holder.addTweet(temp1);
         assertEquals(1,holder.getCount());

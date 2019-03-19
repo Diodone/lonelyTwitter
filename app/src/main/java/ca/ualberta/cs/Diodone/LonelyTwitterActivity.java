@@ -8,20 +8,18 @@
  * Copyright (c) 2019. All rights reserved.
  */
 
-package ca.ualberta.cs.lonelytwitter;
+package ca.ualberta.cs.Diodone;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
@@ -52,8 +50,8 @@ public class LonelyTwitterActivity extends Activity {
 	private static final String FILENAME = "file.sav";
 	private EditText bodyText;
 	private ListView oldTweetsList;
-	private ArrayAdapter<Tweet> adapter;
-	private ArrayList<Tweet> tweetList;
+	private ArrayAdapter<NormalTweet> adapter;
+	private ArrayList<NormalTweet> tweetList;
 
 	
 	/** Called when the activity is first created. Creates the body of the page */
@@ -73,7 +71,7 @@ public class LonelyTwitterActivity extends Activity {
 			public void onClick(View v) {
 				setResult(RESULT_OK);
 				String text = bodyText.getText().toString();
-				Tweet tweet = new Tweet(text);
+				NormalTweet tweet = new NormalTweet(text);
 				tweetList.add(tweet);
 				// saveInFile(text, new Date(System.currentTimeMillis()));
 				Firebase tweetchild = ref.child(tweet.getUnique().toString());
@@ -93,21 +91,21 @@ public class LonelyTwitterActivity extends Activity {
 		ref.addValueEventListener(new ValueEventListener() {
 			public void onDataChange(DataSnapshot dataSnapshot) {
 				for (DataSnapshot d: dataSnapshot.getChildren()) {
-					Tweet tweet = d.getValue(Tweet.class);
+					NormalTweet tweet = d.getValue(NormalTweet.class);
 					if (tweet.getMessage().startsWith("/U")) {
 						if(!tweet.getMessage().equals(tweet.getMessage().toUpperCase())) {
-							tweet.setMessage(tweet.getMessage().toUpperCase());
+							tweet.setTweetBody(tweet.getMessage().toUpperCase());
 							Firebase tweetchild = ref.child(tweet.getUnique().toString());
 							tweetchild.setValue(tweet);
 						}
 					} else if (tweet.getMessage().startsWith("/L")) {
 						if(!tweet.getMessage().equals(tweet.getMessage().toLowerCase())) {
-							tweet.setMessage(tweet.getMessage().toLowerCase());
+							tweet.setTweetBody(tweet.getMessage().toLowerCase());
 							Firebase tweetchild = ref.child(tweet.getUnique().toString());
 							tweetchild.setValue(tweet);
 						}
 					}
-					Log.d(TAG, "Tweet " + tweet.getUnique() + ": " + tweet.getMessage());
+					Log.d(TAG, "NormalTweet " + tweet.getUnique() + ": " + tweet.getMessage());
 				}
 			}
 
@@ -126,14 +124,14 @@ public class LonelyTwitterActivity extends Activity {
 		super.onStart();
 		tweetList = TweetListSingleton.getInstance().getTweetList();
 		loadFromFile();
-		adapter = new ArrayAdapter<Tweet>(this,
+		adapter = new ArrayAdapter<NormalTweet>(this,
 				R.layout.list_item, tweetList);
 		oldTweetsList.setAdapter(adapter);
 		oldTweetsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Intent intent = new Intent(LonelyTwitterActivity.this, EditTweetActivity.class);
-				intent.putExtra("Tweet", tweetList.get(position));
+				intent.putExtra("NormalTweet", tweetList.get(position));
 				startActivity(intent);
 			}
 		});
@@ -149,7 +147,7 @@ public class LonelyTwitterActivity extends Activity {
 			BufferedReader in = new BufferedReader(new InputStreamReader(fis));
 			Gson gson = new Gson();
 
-			Type listType = new TypeToken<ArrayList<Tweet>>(){}.getType();
+			Type listType = new TypeToken<ArrayList<NormalTweet>>(){}.getType();
 			tweetList  = gson.fromJson(in,listType);
 
 
@@ -172,7 +170,7 @@ public class LonelyTwitterActivity extends Activity {
 			BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 			//FileWriter out = new FileWriter(FILENAME);
 			Gson gson = new Gson();
-			Type listType = new TypeToken<ArrayList<Tweet>>(){}.getType();
+			Type listType = new TypeToken<ArrayList<NormalTweet>>(){}.getType();
 			gson.toJson(tweetList,listType,out);
 			System.out.print("Got here successfully");
 			//fos.write(new String(date.toString() + " | " + text).getBytes());
@@ -187,7 +185,7 @@ public class LonelyTwitterActivity extends Activity {
 		}
 	}
 
-	public void addTweet(Tweet tweet){
+	public void addTweet(NormalTweet tweet){
 		for(int i=0;i<tweetList.size();i++) {
 			if (tweet.equals(tweetList.get(i))) {
 				throw new IllegalArgumentException();
@@ -195,7 +193,7 @@ public class LonelyTwitterActivity extends Activity {
 		}
 		tweetList.add(tweet);
 	}
-	public ArrayList<Tweet> getTweets(){
+	public ArrayList<NormalTweet> getTweets(){
 		return tweetList;
 	}
 
